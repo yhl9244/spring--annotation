@@ -107,7 +107,7 @@
                             赋值之前：
                             1）拿到InstantiationAwareBeanPostProcessor，执行postProcessAfterInstantiation
                             2）拿到InstantiationAwareBeanPostProcessor，执行postProcessProperties
-                            ===========辅助之前=============
+                            ===========赋值 之前=============
                             3）pplyPropertyValues(beanName, mbd, bw, (PropertyValues)pvs)为属性利用setter方法进行赋值
                         4.initializeBean(beanName, exposedObject, mbd);Bean初始化
                             1）【执行Aware接口方法】invokeAwareMethods(beanName, bean);
@@ -115,5 +115,32 @@
                             2）【执行后置处理器初始化之前】applyBeanPostProcessorsBeforeInitialization(bean, beanName);
                                 postProcessBeforeInitialization()
                             3）【执行初始化方法】invokeInitMethods(beanName, wrappedBean, mbd);
-                                1）是否是InitializingBean
+                                1）是否是InitializingBean接口的实现：执行接口的初始化方法
                                 2）是否自定义初始化方法
+                             4）【执行后置处理器初始化之后】applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
+                                postProcessAfterInitialization()
+                        5.registerDisposableBeanIfNecessary(beanName, bean, mbd);注册容器销毁方法
+                    5.将创建的bean添加到缓存中singletonObjects
+             3)所有bean创建完成，检查是否是SmartInstantiationAwareBeanPostProcessor
+                如果是执行afterSingletonsInstantiated
+12.finishRefresh()完成BeanFactory的初始化创建，IOC容器创建完成
+    1）initLifecycleProcessor();初始化与生命周期有关的后置处理器：LifecycleProcessor
+        默认从容器中找是否有id为lifecycleProcessor类型为LifecycleProcessor组件
+        如果没有new DefaultLifecycleProcessor();并注册到容器中
+    2）getLifecycleProcessor().onRefresh();
+        拿到前面定义生命周期处理器（BeanFactory）回调onRefresh()
+    3)publishEvent((ApplicationEvent)(new ContextRefreshedEvent(this)));
+        发布容器刷新完成事件
+    4）LiveBeansView.registerApplicationContext(this);
+
+========总结==========
+1）spring容器启动时候，先保存所有注册的Bean的定义信息
+    1）xml注册Bean：<bean>
+    2）注解注册Bean：@Service、@Component等
+2）spring容器会在合适的时机创建Bean
+    1）用到Bean的时候，利用getBean创建Bean保存在容器中
+    2）统一创建剩下所有的bean：finishBeanFactoryInitialization
+3）后置处理器
+    1） 每一个Bean创建完成，都会使用各种后置处理器进行处理增强bean的功能
+4）事件驱动模型：ApplicationListener
+
