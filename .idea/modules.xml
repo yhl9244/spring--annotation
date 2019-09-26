@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/spring-annotation/spring-annotation.iml" filepath="$PROJECT_DIR$/spring-annotation/spring-annotation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springmv-cannotation/springmvc-annotation.iml" filepath="$PROJECT_DIR$/springmv-cannotation/springmvc-annotation.iml" />
     </modules>
   </component>
 </project>
