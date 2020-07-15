@@ -108,7 +108,7 @@
                             1）拿到InstantiationAwareBeanPostProcessor，执行postProcessAfterInstantiation
                             2）拿到InstantiationAwareBeanPostProcessor，执行postProcessProperties
                             ===========赋值 之前=============
-                            3）pplyPropertyValues(beanName, mbd, bw, (PropertyValues)pvs)为属性利用setter方法进行赋值
+                            3）applyPropertyValues(beanName, mbd, bw, (PropertyValues)pvs)为属性利用setter方法进行赋值
                         4.initializeBean(beanName, exposedObject, mbd);Bean初始化
                             1）【执行Aware接口方法】invokeAwareMethods(beanName, bean);
                                 BeanNameAware、BeanClassLoaderAware、BeanFactoryAware
